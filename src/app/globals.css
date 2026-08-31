@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Smooth scrolling ─────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  /* Reserve space for scrollbar to prevent layout shift */
+  scrollbar-gutter: stable;
+}
+
+/* ─── CSS custom properties ────────────────────────────────────────────── */
+:root {
+  /* Light mode */
+  --bg-primary:    #f8fafc;
+  --bg-secondary:  #f1f5f9;
+  --bg-card:       #ffffff;
+  --text-primary:  #0f172a;
+  --text-secondary:#475569;
+  --text-muted:    #94a3b8;
+  --border:        #e2e8f0;
+  --accent-blue:   #2563eb;
+  --accent-purple: #9333ea;
+  --nav-bg:        rgba(248, 250, 252, 0.88);
+  --shadow-card:   0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
+}
+
+.dark {
+  /* Dark mode */
+  --bg-primary:    #030712;
+  --bg-secondary:  #080f1f;
+  --bg-card:       #0d1630;
+  --text-primary:  #f1f5f9;
+  --text-secondary:#94a3b8;
+  --text-muted:    #475569;
+  --border:        #1a2740;
+  --accent-blue:   #60a5fa;
+  --accent-purple: #c084fc;
+  --nav-bg:        rgba(3, 7, 18, 0.88);
+  --shadow-card:   0 1px 3px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.3);
+}
+
+/* ─── Base styles ───────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  /* Slightly smaller base: 15px on desktop, 15px on mobile (readable but not bloated) */
+  font-size: 14px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Prevent theme flash on page load — matches defaultTheme="light" */
+html.dark body { background-color: #030712; }
+html:not(.dark) body { background-color: #f8fafc; }
+
+/* ─── Typography ────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+p {
+  line-height: 1.65;
+}
+
+/* ─── Utility classes ───────────────────────────────────────────────────── */
+@layer components {
+
+  /* Layout */
+  .section-container {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-14 sm:py-16 lg:py-20;
+  }
+
+  /* Typography */
+  .section-label {
+    @apply text-[11px] font-mono uppercase tracking-[0.15em] mb-2;
+  }
+
+  .section-title {
+    @apply text-lg sm:text-xl font-bold tracking-tight mb-3;
+  }
+
+  .section-divider {
+    @apply w-12 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full;
+  }
+
+  /* Gradient text */
+  .accent-gradient {
+    @apply bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent;
+  }
+
+  /* Cards */
+  .card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    @apply rounded-2xl p-5 transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply card;
+  }
+  .card-hover:hover {
+    border-color: rgba(96, 165, 250, 0.35);
+    box-shadow: 0 0 0 1px rgba(96,165,250,.1), 0 8px 24px rgba(0,0,0,.12);
+    transform: translateY(-1px);
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-white
+           bg-gradient-to-r from-blue-500 to-purple-500
+           hover:from-blue-600 hover:to-purple-600
+           transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]
+           focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-1
+           shadow-lg shadow-blue-500/20;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm
+           border transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]
+           focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:ring-offset-1;
+    border-color: var(--border);
+    color: var(--text-secondary);
+    background-color: var(--bg-card);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+  }
+
+  /* Scroll-reveal base (applied programmatically via JS) */
+  .reveal {
+    @apply transition-all duration-700 ease-out;
+  }
+  .reveal-hidden {
+    @apply opacity-0 translate-y-6;
+  }
+  .reveal-visible {
+    @apply opacity-100 translate-y-0;
+  }
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
+
+/* ─── Text selection ────────────────────────────────────────────────────── */
+::selection {
+  background-color: rgba(96, 165, 250, 0.22);
+  color: var(--text-primary);
+}
+
+/* ─── Focus visible (accessibility) ────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Responsive images ─────────────────────────────────────────────────── */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Print ─────────────────────────────────────────────────────────────── */
+@media print {
+  nav, footer { display: none; }
+  body { background: white; color: black; }
+}
